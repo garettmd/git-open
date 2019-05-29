@@ -181,9 +181,10 @@ elif [[ "${#pathargs[@]}" -ge 3 && ${pathargs[${#pathargs[@]} - 3]} == 'scm' ]];
 
   # Replace the 'scm' element, with 'projects'. Keep the first argument, the string 'repos', and finally the rest of the arguments.
   # shellcheck disable=SC2206
-  pathargs=(${pathPref[@]} 'projects' ${pathargs[${#pathargs[@]} - 2]} 'repos' "${pathargs[@]:${#pathargs[@]} - 1}")
-  IFS='/' urlpath="${pathargs[*]}"
-  providerBranchRef="/browse?at=$branch"
+elif [[ "$domain" == *stash* ]]; then
+    pathargs=(${pathPref[@]} 'projects' ${pathargs[${#pathargs[@]} - 2]} 'repos' "${pathargs[@]:${#pathargs[@]}-1}")
+    IFS='/' urlpath="${pathargs[*]}"
+    providerBranchRef="/browse?at=$branch"
 elif [[ "${#pathargs[@]}" -ge '2' && ${pathargs[${#pathargs[@]} - 2]} == '_git' ]]; then
   # Visual Studio Team Services and Team Foundation Server always have /_git/ as the second to last segment in the url path
   if (( is_issue )); then
